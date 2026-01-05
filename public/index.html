@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benvenuti su MyStore - Qualità ed Eleganza</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+    <main class="main-container">
+        <section class="grid-container">
+            <div class="col-left">
+                <div id="carousel-adv" class="carousel-container" data-slides-to-show="1" data-autoplay="true"
+                    data-infinite="true" data-show-dots="true" data-effect="fade" data-show-arrows="false">
+                    <div class="carousel-track">
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+            </div>
+
+            <div class="col-right">
+                <div class="box-top">
+                    <div class="col-top" style="background-image: url('img/ad-image-1-500.avif')">
+                        <h3>brand name</h3>
+                        <div class="pretitle">pretitle</div>
+
+                        <div class="sale">In Evidenza</div>
+
+                        <p>motto</p>
+
+                        <a class="" href="brand.html?name=valentino">
+                            Shop brand name
+                            <img src="/img/arrow03.svg">
+                        </a>
+                    </div>
+                </div>
+                <div class="box-bottom">
+                    <div class="col-bottom" style="background-image: url('img/ad-image-2-500.avif')">
+                        <h3>brand name</h3>
+                        <div class="pretitle">pretitle</div>
+
+                        <div class="sale">In Evidenza</div>
+
+                        <p>motto</p>
+
+                        <a class="" href="brand.html?name=ferrari">
+                            Shop brand name
+                            <img src="/img/arrow03.svg">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <span class="icon">🚚</span>
+                <h3>Spedizione Rapida</h3>
+                <p>Consegniamo in tutta Italia in 24/48 ore con corriere espresso.</p>
+                <a href="brand.html?name=valentino">Vedi tutti i prodotti Barilla</a>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🔒</span>
+                <h3>Pagamenti Sicuri</h3>
+                <p>Tutte le transazioni sono crittografate e sicure al 100%.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">⭐</span>
+                <h3>Qualità Garantita</h3>
+                <p>Selezioniamo solo i migliori fornitori per offrirti il top.</p>
+            </div>
+        </section>
+
+        <h2 style="text-align: center; margin-top: 50px">
+            I preferiti della settimana
+        </h2>
+        <div id="lista-prodotti" class="grid"></div>
+
+        <div style="text-align: center; margin: 40px 0">
+            <a href="store.html" style="color: var(--primary); font-weight: bold">Vedi tutto il catalogo →</a>
+        </div>
+        <section class="carousel-wrapperx">
+            <div id="carousel-offerte" class="carousel-container" data-slides-to-show="4" data-autoplay="true"
+                data-infinite="true" data-show-dots="true" data-show-arrows="true"
+                data-responsive='[{"breakpoint": 1024, "slidesToShow": 3}, {"breakpoint": 768, "slidesToShow": 2}, {"breakpoint": 480, "slidesToShow": 1}]'>
+                <div class="carousel-panel">
+                    <div class="carousel-title">📈 Le migliori offerte</div>
+                    <div class="carousel-link"><a class="underline" href="">View all categories 🔗</a></div>
+                    <div class="div-arrow">
+                        <button class="carousel-arrow left">&#10094;</button>
+                        <button class="carousel-arrow right">&#10095;</button>
+                    </div>
+                </div>
+                <div class="carousel-track"></div>
+                <div class="carousel-dots"></div>
+            </div>
+            </div>
+        </section>
+
+        <section class="carousel-wrapperx">
+            <div id="carousel-novita" class="carousel-container" data-slides-to-show="4" data-autoplay="true"
+                data-infinite="true" data-show-dots="true" data-show-arrows="true"
+                data-responsive='[{"breakpoint": 1024, "slidesToShow": 3}, {"breakpoint": 768, "slidesToShow": 2}, {"breakpoint": 480, "slidesToShow": 1}]'>
+                <div class="carousel-panel">
+                    <div class="carousel-title">📈 Novità </div>
+                    <div class="carousel-link"><a class="underline" href="">View all categories 🔗</a></div>
+                    <div class="div-arrow">
+                        <button class="carousel-arrow left">&#10094;</button>
+                        <button class="carousel-arrow right">&#10095;</button>
+                    </div>
+                </div>
+                <div class="carousel-track"></div>
+                <div class="carousel-dots"></div>
+            </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="/js/carousel.js"></script>
+    <script src="/js/utils.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Usa l'URL della tua rotta Node.js
+            attivaCarouselDinamico('/api/prodotti-advertising', 'carousel-adv');
+            attivaCarouselDinamico("/api/offerte", "carousel-offerte");
+            attivaCarouselDinamico("/api/novita", "carousel-novita");
+        });
+    </script>
+</body>
+
+</html>

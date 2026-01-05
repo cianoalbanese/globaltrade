@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Il Mio Carrello</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .cart-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        .cart-table th, .cart-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .cart-table th { background: #f8f9fa; }
+        .qty-btn { padding: 5px 10px; cursor: pointer; border: 1px solid #ddd; background: white; }
+        .total-section { text-align: right; margin-top: 20px; font-size: 1.5rem; font-weight: bold; }
+        .checkout-btn { background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; float: right; margin-top: 10px; }
+    .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.cart-table th, .cart-table td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
+.qty-controls { display: flex; align-items: center; gap: 10px; }
+.qty-btn { padding: 5px 10px; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 3px; }
+.delete-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-size: 0.9rem; }
+.checkout-btn { background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 1.1rem; cursor: pointer; float: right; }
+    </style>
+    
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+    <main class="container" style="display: block; margin-top: 30px;">
+        <h2>Il tuo Carrello</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Prodotto</th>
+                    <th>Prezzo</th>
+                    <th>Quantità</th>
+                    <th>Subtotale</th>
+                    <th>Azione</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                </tbody>
+        </table>
+
+        <div class="total-section">
+            Totale: <span id="cart-total">0.00</span>€
+        </div>
+        <button class="checkout-btn" onclick="procediAlPagamento()">Vai al Checkout</button>
+    </main>
+<div id="footer-placeholder"></div>
+ <script src="/js/utils.js"></script>
+</body>
+</html>

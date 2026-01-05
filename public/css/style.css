@@ -1,0 +1,1474 @@
+/* --- VARIABILI GLOBALI --- */
+:root {
+  --primary: #28a745;
+  --primary-dark: #218838;
+  --secondary: #007bff;
+  --dark: #1a1a1a;
+  --light-bg: #f8f9fa;
+  --text-main: #333;
+  --text-muted: #666;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+
+  --bg-gradient-light: linear-gradient(
+    135deg,
+    rgb(247, 240, 246),
+    rgb(240, 251, 255)
+    
+  );
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  background: var(--light-bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding-top: 100px;
+}
+
+/* --- HEADER & NAV --- */
+header {
+  /* Stato Iniziale: Fluttuante */
+  background: #ffffff;
+  padding: 10px 0;
+  position: fixed; /* Fixed è meglio per questa animazione */
+  top: 20px;
+  left: 30px;
+  right: 30px;
+  z-index: 1100;
+  box-shadow: var(--shadow);
+  border-radius: 15px; /* Bordi arrotondati quando flotta */
+
+  /* Animazione fluida per il passaggio */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stato durante lo Scroll: Sticky classico */
+header.scrolled {
+  top: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0; /* Torna quadrato */
+  padding: 5px 0; /* Leggermente più compatto */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.nav-container {
+  max-width: 1700px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--dark);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* --- STILE BURGER MENU (Nascosto di default) --- */
+.menu-toggle {
+  display: none; /* Nascosto su desktop */
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1200;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--dark);
+  transition: 0.3s;
+  border-radius: 3px;
+}
+
+/* --- RESPONSIVE PER SCHERMI PICCOLI (Mobile) --- */
+@media (max-width: 768px) {
+  /* Assicuriamoci che il burger sia visibile e sopra tutto */
+  .menu-toggle {
+    display: flex !important;
+    position: relative;
+    z-index: 2001; /* Più alto del nav-links */
+  }
+
+  .nav-links {
+    display: flex !important; /* Forza il flex */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Posizionamento fisso */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Nascosto a destra */
+    width: 100%; /* Occupa tutto lo schermo per semplicità */
+    height: 100vh;
+
+    /* Stile visivo */
+    background-color: #ffffff !important;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+
+    /* Transizione fluida */
+    transition: right 0.4s ease-in-out;
+    z-index: 2000;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* CLASSE ATTIVA: Quando clicchi il burger */
+  .nav-links.active {
+    right: 0 !important; /* Entra nello schermo */
+  }
+
+  .nav-links a {
+    font-size: 1.5rem; /* Testo più grande su mobile */
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Blocca lo scroll del body quando il menu è aperto (opzionale ma consigliato) */
+  body.menu-open {
+    overflow: hidden;
+  }
+}
+
+/* Container principale */
+.icon-group {
+  display: flex;
+  gap: 0 15px;
+  align-items: center;
+}
+
+/* Singolo item (Cerchio esterno) */
+.icon-item {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #eee;
+}
+
+.icon-item:hover {
+  background: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary); /* Il tuo colore principale */
+}
+
+/* Stile per l'emoji/icona */
+.icon-item .emoji {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.icon-item:hover .emoji {
+  transform: scale(1.1);
+}
+
+/* --- BADGE (I contatori 0) --- */
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #e74c3c; /* Rosso vibrante */
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  border: 2px solid #ffffff; /* Stacca il badge dall'icona */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.badge-new {
+  position: absolute;
+  top: 30px;
+  right: 5px; /* Angolo opposto al cuore */
+  z-index: 10;
+
+  background: linear-gradient(
+    135deg,
+    #00b894,
+    #00cec9
+  ); /* Verde acqua moderno */
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  padding: 5px 12px;
+  border-radius: 50px; /* Forma a pillola */
+  box-shadow: 0 4px 10px rgba(0, 184, 148, 0.3);
+  pointer-events: none; /* Così non interferisce con i click sulla card */
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Un piccolo punto luminoso animato per attirare l'attenzione */
+.badge-new::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  display: inline-block;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+/* Animazione quando il conteggio cambia (puoi attivarla via JS) */
+.badge.bump {
+  transform: scale(1.3);
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bump {
+  animation: bump 0.3s ease-out;
+}
+/* Responsive: su mobile le icone possono essere leggermente più piccole */
+@media (max-width: 768px) {
+  .icon-item {
+    width: 40px;
+    height: 40px;
+  }
+  .icon-group {
+    gap: 10px;
+  }
+}
+
+.main-container {
+  max-width: 1700px;
+  /* Larghezza ideale per la lettura */
+  margin: 0 auto;
+  /* Centra il contenitore */
+  padding: 60px 20px;
+  /* Spazio verticale tra le sezioni e orizzontale su mobile */
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* --- LAYOUT PRINCIPALE --- */
+.container {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Sidebar fissa, Grid flessibile */
+  max-width: 1700px;
+  margin: 40px auto;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* --- SIDEBAR --- */
+#loader {
+  display: none; /* Nascosto di default */
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Forza lo stile della sidebar per debug */
+/* Sidebar Container */
+.sidebar {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  font-family: "Inter", sans-serif;
+}
+
+/* ==========================================
+   1. STRUTTURA DETAILS & SUMMARY (GERARCHIA)
+   ========================================== */
+
+/* Regola generale per tutti i details */
+details {
+  margin-bottom: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+/* Stile quando un details è aperto */
+details[open] {
+  border-color: #3498db;
+  background: #fafafa;
+}
+
+/* Reset del Summary */
+summary {
+  padding: 12px;
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: #2c3e50;
+  transition: background 0.2s;
+}
+
+summary::-webkit-details-marker {
+  display: none; /* Rimuove freccia standard Chrome */
+}
+
+/* Icona Freccia (Comune a tutti i livelli) */
+summary::after {
+  content: "→";
+  display: inline-block;
+  transition: transform 0.3s ease;
+  color: #3498db;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* ROTAZIONE: Colpisce ogni details aperto, di qualsiasi livello */
+details[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+/* Sottogruppo (Contenitore figli) */
+.sub-group {
+  padding: 5px 15px 10px 15px;
+  border-top: 1px solid #eee;
+}
+
+/* Details annidati (Livelli 2 e 3) - Rendiamoli più leggeri */
+.sub-group details {
+  border: none;
+  background: transparent;
+  margin-bottom: 5px;
+}
+
+.sub-group details[open] {
+  background: rgba(52, 152, 219, 0.03);
+}
+
+.sub-group summary {
+  padding: 8px 5px;
+  font-size: 0.95rem;
+}
+
+/* ==========================================
+   2. RICERCA E INPUT TESTUALI
+   ========================================== */
+
+.filter-group .search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filter-group input[type="text"] {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.filter-group .search-wrapper::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23999' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.filter-group input[type="text"]:focus {
+  border-color: #3498db;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+}
+
+/* ==========================================
+   3. SELECT E ORDINAMENTO
+   ========================================== */
+
+.filter-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #eee;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+/* ==========================================
+   4. RANGE SLIDER (PREZZO)
+   ========================================== */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  outline: none;
+  margin: 15px 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+/* ==========================================
+   5. CHECKBOX PERSONALIZZATE
+   ========================================== */
+
+.filter-group input[type="checkbox"] {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  background-color: #fff;
+  border: 2px solid #cbd5e0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.filter-group input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #fff;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.filter-group input[type="checkbox"]:checked {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.filter-group input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+/* ==========================================
+   6. LABELS E TESTI NIDIFICATI
+   ========================================== */
+
+.main-cat,
+.brand-label {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.nested-label {
+  margin-left: 20px;
+  padding: 5px 10px;
+  border-left: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.nested-label:hover {
+  background: #edf7ff;
+  color: #3498db;
+  border-left-color: #3498db;
+}
+/* --- 5. ETICHETTE INLINE (Offerta/Novità) --- */
+.checkboxes-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.checkboxes-inline label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+/* Range Slider */
+#priceMax {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Reset Button */
+.reset-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  background: #e74c3c;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.reset-btn:hover {
+  background: #c0392b;
+}
+/* --- GRID PRODOTTI --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 25px;
+}
+
+/*.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: var(--transition);
+  border: 1px solid transparent;
+   position:relative;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-color: #eee;
+}
+
+.card.promo {
+  border: 2px solid var(--primary);
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}*/
+.card {
+  background: white;
+  padding: 0; /* Rimosso per far aderire l'immagine ai bordi */
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
+  /* Fondamentale: nasconde l'immagine quando si ingrandisce */
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-color: #eee;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px; /* Altezza fissa richiesta */
+  object-fit: cover; /* Riempie senza deformare */
+  display: block;
+  /* Transizione fluida per l'effetto zoom */
+  transition: transform 0.5s ease;
+}
+
+/* Quando passi il mouse sulla CARD, l'IMMAGINE si ingrandisce */
+.card:hover .product-image {
+  transform: scale(1.1); /* Ingrandimento del 10% */
+}
+
+.card-body {
+  padding: 20px; /* Ridiamo spazio al testo all'interno */
+}
+
+.card.promo {
+  border: 2px solid var(--primary);
+}
+
+.price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 10px 0;
+}
+
+.wish-btn {
+  position: absolute;
+  top: 15px; /* Distanza dall'alto */
+  left: 15px; /* Distanza da sinistra */
+  z-index: 10; /* Sopra l'immagine */
+
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+
+  /* Effetto Sfondo: Bianco semi-trasparente (Glassmorphism) */
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #888; /* Cuore spento */
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 3. Effetto Hover e Stato Attivo */
+.wish-btn:hover {
+  transform: scale(1.1);
+  background: #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Se il cuore è rosso (prodotto già in wishlist) */
+.wish-btn.active,
+.wish-btn:contains("❤️") {
+  color: #e74c3c;
+}
+/* --- BOTTONI --- */
+button {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--transition);
+}
+
+button:hover {
+  background: var(--primary-dark);
+  filter: brightness(1.1);
+}
+
+/* --- FOOTER (Centralizzato) --- */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* --- PAGE PRODUCTS --- */
+/*.product-detail-container {
+  display: flex;
+ 
+   max-width: 1700px;
+  margin: 40px 20px;
+  gap: 30px;
+  padding: 0 20px;
+ 
+  background: white;
+
+  border-radius: 10px;
+}
+.product-detail-image {
+  width: 50%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.product-info {
+  width: 50%;
+}*/
+
+/********************************************/
+.product-page-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Due colonne uguali */
+  gap: 40px;
+  padding: 20px;
+  max-width: 1700px;
+  margin: 0 auto;
+  background: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Immagine */
+/*.product-media {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}*/
+.product-media {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.main-image-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+
+.main-product-img {
+  width: 100%;
+  display: block;
+  transition: 0.3s ease;
+}
+
+.thumbnail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 10px;
+}
+
+.thumb-item {
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+  opacity: 0.6;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-item.active,
+.thumb-item:hover {
+  border-color: #2ecc71;
+  opacity: 1;
+}
+
+.allergens-alert {
+  background: #fff5f5;
+  color: #c0392b;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.main-product-img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+/* Header Info */
+.product-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.current-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e67e22;
+}
+
+/* Griglia Specifiche */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.spec-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.spec-card label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #95a5a6;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Blocchi info */
+.info-block {
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  background: #fff;
+  border-left: 5px solid #3498db;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.info-block h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+.allergens {
+  margin-top: 10px;
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+/* Pulsante */
+.btn-primary-lg {
+  width: 100%;
+  padding: 20px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-primary-lg:hover {
+  background: #27ae60;
+  transform: translateY(-3px);
+}
+
+/* Responsive per Smartphone */
+@media (max-width: 768px) {
+  .product-page-layout {
+    grid-template-columns: 1fr;
+  }
+  .product-media {
+    position: relative;
+  }
+}
+/*******************************************/
+.product-info h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+.product-info .price {
+  font-size: 2rem;
+  color: #28a745;
+  margin-bottom: 20px;
+}
+.description {
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 30px;
+}
+.add-to-cart-big {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.add-to-cart-big:hover {
+  background-color: #0056b3;
+}
+.description h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.page-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--primary);
+  background: none;
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  transition: all 0.3s;
+  max-width: 30px;
+}
+
+.page-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.page-btn:hover:not(.active) {
+  background: #f8f9fa;
+}
+
+/* ====================================
+   📦 1. STRUTTURA BASE DEL CAROUSEL
+   ==================================== */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: auto;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+/* ====================================
+   🧭 PANNELLO DI CONTROLLO (TITOLO, LINK, FRECCE)
+   ==================================== */
+.carousel-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.carousel-title {
+  flex: 7;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding-left: 20px;
+  color: var(--tx-default);
+}
+
+.carousel-link {
+  flex: 2;
+  font-size: 1.2rem;
+  color: gray;
+}
+
+.div-arrow {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.carousel-arrow {
+  background: none;
+  border: none;
+  color: var(--bg-yellow);
+  border-radius: var(--border-radius-med);
+  padding: 0 14px 5px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2;
+  display: block;
+  transition: all 0.2s ease-in-out;
+}
+
+.carousel-arrow.right {
+  margin-left: 5px;
+}
+
+.carousel-arrow:hover {
+  background-color: var(--bg-yellow-dark);
+  color: var(--tx-white);
+}
+
+/* ====================================
+   ↔️ 2. LOGICA EFFETTO SLIDE (Carousel Prodotti)
+   ==================================== */
+
+/* Applichiamo queste regole solo ai carousel standard (es. vetrine prodotti) */
+.carousel-container:not([data-effect="fade"]) .carousel-slide {
+  flex: 0 0 calc(100% / var(--slides-to-show, 4));
+  flex-shrink: 0;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 🖼️ ALTEZZA FISSA IMMAGINI (Solo effetto Slide) */
+.carousel-container:not([data-effect="fade"]) .product-image {
+  width: 100%;
+  height: 220px; /* <--- Modifica questa altezza per i prodotti standard */
+  object-fit: contain;
+  margin-bottom: 15px;
+  background-color: #fcfcfc; /* Leggero fondo per staccare l'immagine */
+}
+
+/* ====================================
+   ✨ 3. LOGICA EFFETTO FADE (Advertising col-left)
+   ==================================== */
+
+.carousel-container[data-effect="fade"] {
+  min-height: 600px;
+}
+
+.carousel-container[data-effect="fade"] .carousel-track {
+  display: block;
+  height: 100%;
+}
+
+.carousel-container[data-effect="fade"] .carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s;
+}
+
+.carousel-container[data-effect="fade"] .carousel-slide.active {
+  position: relative; /* Dà altezza al contenitore */
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+  display: flex !important; /* Forza il layout split */
+}
+
+/* ====================================
+   🧭 6. CONTROLLI (DOTS & ARROWS)
+   ==================================== */
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.carousel-dot.active {
+  background: #ff4757;
+  width: 30px;
+  border-radius: 6px;
+}
+
+/* --- MEDIA QUERIES (RESPONSIVE) --- */
+
+/* Tablet: La sidebar sparisce o va sopra */
+@media (max-width: 992px) {
+  .container {
+    grid-template-columns: 1fr; /* Sidebar e Grid su una colonna */
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: none;
+  } /* Il menu burger gestirà questo */
+}
+
+/* Smartphone */
+@media (max-width: 576px) {
+  .grid {
+    grid-template-columns: 1fr; /* Un solo prodotto per riga */
+  }
+
+  .header-actions .search-box {
+    display: none; /* Nascondiamo la ricerca per pulizia */
+  }
+}
+
+/*-- PABINA INDEX --- */
+/* Layout Desktop */
+/* ====================================
+   🎨 0. VARIABILI (Facilitano la manutenzione)
+   ==================================== */
+:root {
+  --color-main: #2f3542;
+  --color-accent: #ff4757;
+  --color-text-muted: #747d8c;
+  --radius-lg: 1rem;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+}
+
+/* ====================================
+   🏗️ 1. STRUTTURA GRID PRINCIPALE
+   ==================================== */
+.grid-container {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+/*  min-height: 500px;*/
+  gap: 40px;
+}
+
+/* ====================================
+   🎨 2. COLONNA SINISTRA (Slide EVD-1)
+   ==================================== */
+.carousel-slide.evd-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 500px;
+  box-shadow: var(--shadow-soft);
+  flex: 1; /* Forza la slide a riempire tutta l'altezza della col-left */
+    min-height: 100%;
+}
+
+.evd-1-item-text {
+  flex: 4; /* 40% circa */
+  padding: clamp(30px, 5vw, 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.col-left {
+    display: flex; /* Necessario per far allungare i figli interni */
+    flex-direction: column;
+    height: 100%; /* Occupa tutto lo spazio della cella grid */
+}
+.evd-1-item-text h4 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-accent);
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.evd-1-item-text h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--color-main);
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+/* Badge & Text */
+.evd1-stock {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 50px;
+  background: #e1f5fe;
+  color: #0288d1;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+.evd1-stock.low-stock { background: #fff0f0; color: #d32f2f; }
+
+.evd-1-item-text p {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Prezzi & CTA */
+.evd-price-info {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.price-discounted, .price { font-size: 2.5rem; font-weight: 800; color: var(--color-main); }
+.original-price { font-size: 1.2rem; text-decoration: line-through; color: #a4b0be; }
+.total-price { background: var(--color-accent); color: white; padding: 4px 10px; border-radius: 8px; font-weight: 700; }
+
+.adv-cta-btn {
+  background: var(--color-main);
+  color: white;
+  padding: 18px 45px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  border: none;
+  transition: var(--transition);
+  box-shadow: 0 10px 20px rgba(47, 53, 66, 0.2);
+  align-self: flex-start;
+}
+.adv-cta-btn:hover { background: var(--color-accent); transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 71, 87, 0.3); }
+
+/* --- IMMAGINE (60%) --- */
+.evd-1-item-img {
+  flex: 6; 
+  padding: 30px;
+  overflow: hidden;
+}
+
+.evd-1-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  transition: transform 0.8s ease;
+}
+.carousel-slide:hover .evd-1-item-img img { transform: scale(1.05); }
+
+/* ====================================
+   📦 4. COLONNA DESTRA (Box Dinamici)
+   ==================================== */
+.col-right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 40px;
+}
+
+.box-top, .box-bottom {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.col-top, .col-bottom {
+  height: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* L'immagine occupa tutto lo spazio a destra sfumando verso il testo */
+  background-position: right center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.box-top { background-color: #ebffeb; }
+.box-bottom { background-color: #f7f0f6; }
+
+/* Protezione leggibilità: il gradiente assicura che il testo sia leggibile anche se l'immagine è scura */
+.box-top .col-top { background-image: linear-gradient(90deg, #ebffeb 40%, transparent 90%), url('img/ad-image-1.avif'); }
+.box-bottom .col-bottom { background-image: linear-gradient(90deg, #f7f0f6 40%, transparent 90%), url('img/ad-image-2.avif'); }
+
+.col-top h3, .col-bottom h3 {
+  font: 700 1.8rem sans-serif;
+  color: coral;
+  text-transform: uppercase;
+  max-width: 60%;
+}
+
+.col-top a, .col-bottom a {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 20px;
+  color: #333;
+  font-weight: 600;
+  text-decoration: none;
+  transition: gap 0.3s;
+}
+.col-top a:hover { gap: 15px; }
+
+/* ====================================
+   📱 5. RESPONSIVE (Ottimizzato)
+   ==================================== */
+@media (max-width: 992px) {
+  .grid-container { grid-template-columns: 1fr; }
+
+  .carousel-slide.evd-1 { flex-direction: column-reverse; height: auto; }
+  .evd-1-item-img { min-height: 400px; padding: 20px; }
+  
+  .col-top h3, .col-bottom h3 { max-width: 100%; }
+}
+/********************************************/
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 50px 0;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 30px;
+  border-radius: 15px;
+  background: #f8f9fa;
+}
+
+.feature-card .icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+  display: block;
+}
+/* Layout Mobile (Responsive) */
+/*@media (max-width: 768px) {
+    .grid-container {
+   /*     grid-template-columns: 1fr; /* Passa a una sola colonna */
+/*    grid-template-rows: auto;    /* Le righe si adattano al contenuto */
+/* }
+    
+    .col-left {
+        height: 300px; /* Altezza fissa su mobile per non farlo sparire */
+/* }
+
+    .col-right {
+        height: 400px; /* Altezza totale per i due box su mobile */
+/*   }
+}*/

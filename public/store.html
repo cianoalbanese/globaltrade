@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Il Mio Store - Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div id="header-placeholder"></div>
+    <div id="loader"></div>
+    <div class="container">
+      <aside class="sidebar">
+        <h3>Filtri</h3>
+
+        <div class="filter-group">
+          <!-- <label for="searchInput">Cerca:</label>-->
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="searchInput"
+              oninput="caricaProdotti()"
+              placeholder="Cerca prodotti, brand o categorie..."
+            />
+          </div>
+        </div>
+        <br />
+        <div id="dynamic-categories"></div>
+
+        <br />
+
+        <div class="filter-group">
+          <label>Prezzo Max: <span id="price-display">2500</span>€</label>
+          <input
+            type="range"
+            id="priceMax"
+            min="0"
+            max="2500"
+            value="2500"
+            oninput="document.getElementById('price-display').innerText = this.value; caricaProdotti()"
+          />
+        </div>
+
+        <div class="filter-group checkboxes-inline">
+          <label
+            ><input
+              type="checkbox"
+              id="checkOffer"
+              onchange="caricaProdotti()"
+            />
+            Solo in Offerta</label
+          >
+          <label
+            ><input type="checkbox" id="checkNew" onchange="caricaProdotti()" />
+            Novità</label
+          >
+        </div>
+
+        <div class="filter-group">
+          <label for="sort">Ordina per:</label>
+          <select id="sort" onchange="caricaProdotti()">
+            <option value="new">Più recenti</option>
+            <option value="cheap">Prezzo più basso</option>
+            <option value="expensive">Prezzo più alto</option>
+          </select>
+        </div>
+
+        <button class="reset-btn" onclick="resetFiltri()">
+          ❌ Resetta Filtri
+        </button>
+      </aside>
+
+      <main>
+        <div
+          id="status-container"
+          style="margin-bottom: 20px; font-weight: bold"
+        >
+          Trovati <span id="count-results">0</span> prodotti
+        </div>
+        <div id="lista-prodotti" class="grid"></div>
+        <div id="pagination-container" class="pagination"></div>
+      </main>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="/js/utils.js"></script>
+  </body>
+</html>

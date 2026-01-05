@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dettaglio Prodotto</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div id="header-placeholder"></div>
+
+    <h4 onclick="window.location.href='index.html'" style="cursor: pointer">
+      Torna allo Store
+    </h4>
+
+    <main class="main-container">
+      <div id="dettaglio-prodotto" class="product-detail-container"></div>
+
+       <section class="carousel-wrapperx">
+            <div id="carousel-novita" class="carousel-container" data-slides-to-show="4" data-autoplay="true"
+                data-infinite="true" data-show-dots="true" data-show-arrows="true"
+                data-responsive='[{"breakpoint": 1024, "slidesToShow": 3}, {"breakpoint": 768, "slidesToShow": 2}, {"breakpoint": 480, "slidesToShow": 1}]'>
+                <div class="carousel-panel">
+                    <div class="carousel-title">📈 Novità </div>
+                    <div class="carousel-link"><a class="underline" href="">View all categories 🔗</a></div>
+                    <div class="div-arrow">
+                        <button class="carousel-arrow left">&#10094;</button>
+                        <button class="carousel-arrow right">&#10095;</button>
+                    </div>
+                </div>
+                <div class="carousel-track"></div>
+                <div class="carousel-dots"></div>
+            </div>
+            </div>
+        </section>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script src="/js/carousel.js"></script>
+    <script src="/js/utils.js"></script>
+     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Usa l'URL della tua rotta Node.js
+          
+             attivaCarouselDinamico("/api/novita", "carousel-novita");
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Prodotti Brand</title>
+    <link rel="stylesheet" href="/css/style.css"> </head>
+<body>
+    <div id="header-placeholder"></div>
+
+<h1 id="brand-title">Caricamento...</h1>
+
+<div id="product-grid" class="grid">
+    </div>
+
+<div id="loader" style="display:none;">Caricamento in corso...</div>
+ <div id="footer-placeholder"></div>
+   
+    <script src="/js/utils.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Forza il parsing dell'URL attuale
+    const queryString = window.location.search;
+    console.log("Query String rilevata:", queryString); // Debug: deve stampare ?name=lete
+
+    const params = new URLSearchParams(queryString);
+    const brandName = params.get('name'); 
+
+    const titleElement = document.getElementById('brand-title');
+
+    if (brandName) {
+        console.log("Brand trovato:", brandName);
+        if (titleElement) {
+            titleElement.innerText = "Prodotti " + brandName.toUpperCase();
+        }
+        // Chiama la funzione di utils.js
+        caricaProdotti(); 
+    } else {
+        console.error("ERRORE: Il parametro 'name' non è presente nell'URL.");
+        if (titleElement) titleElement.innerText = "Brand non specificato";
+    }
+});
+    </script>
+</body>
+</html>
