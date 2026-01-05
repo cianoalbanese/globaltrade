@@ -1,4 +1,3 @@
-// config/db.js
 const { Pool } = require('pg');
 require('dotenv').config();
 
@@ -8,6 +7,8 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
+  // Aggiungi questo per la compatibilità con Render
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 module.exports = pool;
