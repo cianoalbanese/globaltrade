@@ -1,0 +1,17 @@
+# Dipendenze
+node_modules/
+jspm_packages/
+
+# Debug e Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variabili d'ambiente (IMPORTANTE per la sicurezza)
+.env
+.env.local
+
+# Cartelle di build (se usi TypeScript o framework come Next.js)
+dist/
+build/
+.next/
