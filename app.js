@@ -385,7 +385,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log("-------------------------------------------");
   console.log(`Server attivo su: http://localhost:${PORT}`);
   console.log(`Cartella public cercata in: ${publicPath}`);
